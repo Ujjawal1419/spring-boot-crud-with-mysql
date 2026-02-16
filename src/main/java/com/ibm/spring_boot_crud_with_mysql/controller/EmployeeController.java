@@ -1,8 +1,13 @@
 package com.ibm.spring_boot_crud_with_mysql.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import com.ibm.spring_boot_crud_with_mysql.user.UserController;
 
+import jakarta.validation.Valid;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,7 +18,14 @@ import com.ibm.spring_boot_crud_with_mysql.dto.EmployeeDto;
 
 @RestController
 public class EmployeeController {
+
+//    private final UserController userController;
+//
+//    EmployeeController(UserController userController) {
+//        this.userController = userController;
+//    }
 	
+	List<EmployeeDto> employeeDtos = new ArrayList<EmployeeDto>();
 	
 	@GetMapping(value="/todaysdate")
 	public String getTodaydate() {
@@ -29,7 +41,7 @@ public class EmployeeController {
 	
 	
 	@PostMapping(value="/saveEmployeeDto")
-	public EmployeeDto saveEmployeeDtoController(@RequestBody EmployeeDto employeeDto) {
+	public EmployeeDto saveEmployeeDtoController(@RequestBody @Valid EmployeeDto employeeDto) {
 		System.out.println(employeeDto);
 		return employeeDto;
 	}
@@ -41,9 +53,21 @@ public class EmployeeController {
 		return employeeDto;
 	}
 	
-	@GetMapping(value="/getEmployeeById{id}")
-	public EmployeeDto getEmployeeByIdController(Integer id) {
-		return null;
+	@GetMapping(value="/getEmployeeById/{id}")
+	public  ResponseEntity<?>  getEmployeeByIdController(@PathVariable(name = "id")   Integer id) {
+		
+		if(employeeDtos.isEmpty()) {
+			System.out.println("employeeDtos list is empty");
+			return ResponseEntity.ok("employeeDtos list is not found");
+		}
+		
+		for(EmployeeDto employeeDto : employeeDtos) {
+			if(id==employeeDto.getId()) {
+				return ResponseEntity.ok(employeeDto) ;
+			}
+		}
+		System.out.println("The given id is not found");
+		return  ResponseEntity.ok("The given id is not found");
 	}
 
 }

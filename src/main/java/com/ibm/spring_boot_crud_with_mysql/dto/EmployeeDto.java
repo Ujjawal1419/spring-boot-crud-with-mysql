@@ -1,9 +1,17 @@
 package com.ibm.spring_boot_crud_with_mysql.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 public class EmployeeDto {
 	
 	private int id;
+	
+	@NotEmpty(message = "Name should not be empty")
+	@NotNull(message = "Name should not be null")
 	private String name;
+	@Email(message = "Email  is invalid  format")
 	private String email;
 	private String department;
 	public int getId() {
