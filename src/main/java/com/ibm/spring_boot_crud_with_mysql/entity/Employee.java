@@ -12,7 +12,17 @@ public class Employee {
 	private String email;
 	private String department;
 	
+	public Employee() {
+		super();
+	}
 	
+	public Employee(int id,String name,String email,String department) {
+		super();
+		this.id=id;
+		this.name=name;
+		this.email=email;
+		this.department=department;
+	}
 	public int getId() {
 		return id;
 	}
